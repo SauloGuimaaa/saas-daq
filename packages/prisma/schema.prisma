@@ -1,20 +1,23 @@
-// packages/prisma/schema.prisma
+// Este é o seu arquivo de schema Prisma.
+// Saiba mais sobre ele na documentação: https://pris.ly/d/prisma-schema
 
-datasource db {
-  provider = "postgresql" // ou "mysql" se preferir
-  url      = env("DATABASE_URL") // Vai buscar a URL do banco no arquivo .env
-}
-
+// Define o gerador de cliente Prisma (para gerar o Prisma Client)
 generator client {
   provider = "prisma-client-js"
 }
 
+// Define a fonte de dados (seu banco de dados PostgreSQL)
+datasource db {
+  provider = "postgresql" // Especifica que você está usando PostgreSQL
+  url      = env("DATABASE_URL") // Lê a URL de conexão da variável de ambiente DATABASE_URL (do seu .env ou do Railway)
+}
+
+// Define o modelo (tabela) 'User'
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String
-  role      String   @default("STUDENT") // Pode ser STUDENT ou ADMIN
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement()) // Chave primária, Inteiro, Auto-incremento
+  name      String   // Campo para o nome do usuário, tipo String (VARCHAR)
+  email     String   @unique // Campo para o email, tipo String, deve ser único na tabela
+  password  String   // Campo para a senha (lembre-se de armazenar apenas o hash da senha!)
+  createdAt DateTime @default(now()) // Opcional: Data de criação do registro
+  updatedAt DateTime @updatedAt // Opcional: Data da última atualização do registro
 }
