@@ -1,0 +1,20 @@
+// packages/prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql" // ou "mysql" se preferir
+  url      = env("DATABASE_URL") // Vai buscar a URL do banco no arquivo .env
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("STUDENT") // Pode ser STUDENT ou ADMIN
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
